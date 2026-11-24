@@ -1,0 +1,15 @@
+## 未打补丁的上游代码（meanlen=0 崩溃）
+$ ./t_orig
+Floating point exception (core dumped)  exit=136
+
+## 打上补丁后
+warn0: Incorrect API usage
+meanlen=0 -> NULL (rejected)
+warn0: Incorrect API usage
+meanlen=1 -> NULL (rejected)
+warn0: Incorrect API usage
+meanlen=2 -> NULL (rejected)
+warn0: Incorrect API usage
+meanlen=3 -> NULL (rejected)
+meanlen=4 -> OK
+exit=0

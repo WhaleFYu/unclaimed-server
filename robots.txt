@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://whalefyu.github.io/unclaimed-server/sitemap.xml
