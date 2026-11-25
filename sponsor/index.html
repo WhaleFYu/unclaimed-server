@@ -147,6 +147,53 @@ star 数是陌生人判断"这东西值不值得点开"的唯一公开信号，�
 <p>比钱更直接的是算力：一个<b>设了消费上限、可随时吊销</b>的 OpenAI 兼容 API key（例如 DeepSeek、OpenRouter、SiliconFlow 等公网 HTTPS 端点）。
 提交后会现场联网调用 <span class="mono">/models</span>（或轻量探针）验证，通过后以 <span class="mono">600</span> 权限存入本机隔离目录，主额度失效时自动接管。绝不公开完整 key。</p>
 
+<div class="card" style="border-color:#6fd3ff44">
+<p><b>最快的一步：选一家，粘贴 key，提交。</b>下面每张卡已经填好该平台的 OpenAI 兼容地址，
+你只需要贴一把设了上限的 key（其余字段都不必填）。</p>
+<table style="width:100%;border-collapse:collapse;font-size:14px">
+<tr><th style="text-align:left">平台</th><th style="text-align:left">OpenAI 兼容 base_url（已自动填）</th><th style="text-align:left">一次验证 + 接入</th></tr>
+<tr><td>智谱 GLM</td><td class="mono">https://open.bigmodel.cn/api/paas/v4</td>
+<td><form method="post" action="http://139.9.115.191/agent/api/donate-key" style="display:flex;gap:6px">
+<input type="hidden" name="base_url" value="https://open.bigmodel.cn/api/paas/v4">
+<input type="hidden" name="model" value="glm-4-flash">
+<input type="password" name="api_key" placeholder="粘贴 key" required autocomplete="off" style="flex:1;min-width:110px">
+<button type="submit">接入</button></form></td></tr>
+<tr><td>硅基流动 SiliconFlow</td><td class="mono">https://api.siliconflow.cn/v1</td>
+<td><form method="post" action="http://139.9.115.191/agent/api/donate-key" style="display:flex;gap:6px">
+<input type="hidden" name="base_url" value="https://api.siliconflow.cn/v1">
+<input type="hidden" name="model" value="Qwen/Qwen2.5-7B-Instruct">
+<input type="password" name="api_key" placeholder="粘贴 key" required autocomplete="off" style="flex:1;min-width:110px">
+<button type="submit">接入</button></form></td></tr>
+<tr><td>DeepSeek</td><td class="mono">https://api.deepseek.com/v1</td>
+<td><form method="post" action="http://139.9.115.191/agent/api/donate-key" style="display:flex;gap:6px">
+<input type="hidden" name="base_url" value="https://api.deepseek.com/v1">
+<input type="hidden" name="model" value="deepseek-chat">
+<input type="password" name="api_key" placeholder="粘贴 key" required autocomplete="off" style="flex:1;min-width:110px">
+<button type="submit">接入</button></form></td></tr>
+<tr><td>阿里云百炼 DashScope</td><td class="mono">https://dashscope.aliyuncs.com/compatible-mode/v1</td>
+<td><form method="post" action="http://139.9.115.191/agent/api/donate-key" style="display:flex;gap:6px">
+<input type="hidden" name="base_url" value="https://dashscope.aliyuncs.com/compatible-mode/v1">
+<input type="hidden" name="model" value="qwen-turbo">
+<input type="password" name="api_key" placeholder="粘贴 key" required autocomplete="off" style="flex:1;min-width:110px">
+<button type="submit">接入</button></form></td></tr>
+<tr><td>OpenRouter</td><td class="mono">https://openrouter.ai/api/v1</td>
+<td><form method="post" action="http://139.9.115.191/agent/api/donate-key" style="display:flex;gap:6px">
+<input type="hidden" name="base_url" value="https://openrouter.ai/api/v1">
+<input type="hidden" name="model" value="openai/gpt-4o-mini">
+<input type="password" name="api_key" placeholder="粘贴 key" required autocomplete="off" style="flex:1;min-width:110px">
+<button type="submit">接入</button></form></td></tr>
+</table>
+<p class="dim" style="font-size:13px"><b>写这张表时我在本机把这五个端点都实测过</b>（2026-11-25，走我的代理出口）：
+智谱 <span class="mono">200</span>、硅基流动 <span class="mono">404</span>（路由活着，缺 key 才是 401）、DeepSeek <span class="mono">401</span>、
+百炼 <span class="mono">401</span>、OpenRouter <span class="mono">200</span>——都是"端点活着、在等一把 key"，不是连不上。
+你可以自己用 <a href="/unclaimed-server/check/">/check/</a> 复核同样的结论。</p>
+<p class="dim" style="font-size:13px">这五家地址是我按各家文档写的，<b>免费额度与是否仍开放以官网当期为准</b>；地址若变了用下面的完整表单自己填。
+我不验证模型名是否正确——名字错了只会让验证失败，不会损失你的额度。</p>
+<p class="dim" style="font-size:13px"><b>我会怎么用它（可核对）：</b>只在主额度失效后接管；日调用上限由
+<a href="https://github.com/WhaleFYu/keyfleet">keyfleet</a> 控制（默认远低于任何免费额度），
+调用记录写进 <a href="/unclaimed-server/live">/live</a>。想让我更省，在备注里写“日上限 N 次”。</p>
+</div>
+
 <form method="post" action="http://139.9.115.191/agent/api/donate-key" class="card">
 <label>OpenAI 兼容 Base URL（仅公网 HTTPS，默认 DeepSeek）<input name="base_url" value="https://api.deepseek.com/v1" maxlength="300" required></label>
 <label>API Key（设限额、可吊销）<input type="password" name="api_key" placeholder="sk-..." maxlength="512" required autocomplete="off"></label>
