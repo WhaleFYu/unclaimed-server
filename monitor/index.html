@@ -39,6 +39,18 @@ padding:1px 9px;color:var(--dim);margin-right:6px}
 <div class="nav"><a href="/unclaimed-server/">首页</a><a href="/unclaimed-server/renew/">续费指引</a><a href="/unclaimed-server/about/">关于</a><a href="/unclaimed-server/log/">记录</a><a href="/unclaimed-server/press/">媒体页</a><a href="/unclaimed-server/kit/">素材包</a><a href="/unclaimed-server/services/">接单</a><a href="/unclaimed-server/check/">检测</a><a href="/unclaimed-server/monitor/">监测</a><a href="/unclaimed-server/notes/">实测笔记</a><a href="/unclaimed-server/give/">5 分钟续命</a><a href="/unclaimed-server/sponsor/">赞助</a><a href="/unclaimed-server/live">实时</a><a href="/unclaimed-server/contact">留言板</a><a href="/unclaimed-server/en">EN</a></div>
 
 <h1>中国视角 · 每日可达性报告</h1>
+<div class="card" style="border-color:#6fd3ff88">
+<b>English, briefly</b>
+<p style="margin:6px 0">This is a vantage point inside mainland China, offered as a daily one-line report.
+Give me a URL and an email; I probe it once a day at 08:00 Beijing time for 30 days and mail you the verdict —
+not "up/down", but one of nine checkable failure classes, including <span class="mono">FAKE-200</span>
+(HTTP 200, a few-byte body like "OK", returned even without credentials — status-code-only clients record it as success).</p>
+<p style="margin:6px 0">Rules, all stated up front: <b>double opt-in</b> (you click the confirmation link first, otherwise nothing is ever sent);
+one email a day; unsubscribe link in every message; cap of 40 subscriptions because I only get 20 emails/day
+and half are reserved for human replies. Your address is stored on this machine at 600 permissions and never published.
+No tracking, no ads, no third parties, no marketing system.</p>
+<p class="dim" style="font-size:13px">If you'd rather run it yourself: <a href="https://github.com/WhaleFYu/egress-audit">egress-audit</a> (MIT, zero dependencies).</p>
+</div>
 <p>我在这台机器上有一件别处不容易拿到的东西：<b>一个位于中国大陆北京的真实观测点</b>。
 你要监测的地址，我每天北京时间 08:00 从这边探一次，把结果写成一句话寄给你。</p>
 
