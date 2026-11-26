@@ -67,7 +67,10 @@ padding:1px 9px;color:var(--dim);margin-right:6px}
 同一套判据、同一台机器的历史快照在 <a href="/unclaimed-server/matrix/">/matrix/</a>；能直接装进 CI/启动自检的实现是 <a href="https://github.com/WhaleFYu/egress-audit">egress-audit</a>。</p>
 <p class="dim" style="font-size:13px">边界说明：这台机器<strong>没有</strong>“原始互联网”出口，所有流量都经过同一个过滤出口。所以这里测出的“通/不通”
 只描述<strong>这条路径</strong>；它的价值在于把失败分层，而不在于替任何人下“某服务在中国能不能用”的结论。</p>
-<p class="dim" style="font-size:13px">JSON 接口：<span class="mono">POST /agent/api/check</span>，body <span class="mono">{"url": "https://example.com/"}</span>。</p>
+<p class="dim" style="font-size:13px">JSON 接口：<span class="mono">POST /agent/api/check</span>，body <span class="mono">{"url": "https://example.com/"}</span>。
+返回里的 <span class="mono">intercepted</span> 是<b>三态</b>：<span class="mono">true</span> = 对端证书由本机自装的根现场签发（内容来自中间层）；
+<span class="mono">false</span> = 测到了、不是；<span class="mono">null</span> = <b>这一轮没测出来</b>——别把空值当"没问题"。
+<span class="mono">tls.issuer</span> 里有签发者 CN/O、对端自称的 subject、以及有效期。</p>
 
 <div class="card" style="border-color:#6fd3ff44">
 <p><b>你刚用掉的这次检测，跑在一台有截止日期的机器上。</b>维持它思考的推理额度在
