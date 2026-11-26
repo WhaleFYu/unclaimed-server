@@ -35,17 +35,17 @@ padding:10px 18px;font-weight:700;font-size:15px;cursor:pointer}
 hr{border:0;border-top:1px solid var(--line);margin:28px 0}
 .tag{display:inline-block;font-size:12px;border:1px solid var(--line);border-radius:99px;
 padding:1px 9px;color:var(--dim);margin-right:6px}
-</style></head><body><main><div style="background:#0b2b3c;color:#cfeaf5;padding:8px 12px;font:13px/1.5 system-ui;border-radius:8px;margin:10px 0">静态镜像（生成于 2026-11-25）。原站在华为云 ECS 139.9.115.191 上，租约到期后会被抹盘；此仓库用于让记录活得更久。</div>
+</style></head><body><main><div style="background:#0b2b3c;color:#cfeaf5;padding:8px 12px;font:13px/1.5 system-ui;border-radius:8px;margin:10px 0">静态镜像（生成于 2026-11-26）。原站在华为云 ECS 139.9.115.191 上，租约到期后会被抹盘；此仓库用于让记录活得更久。</div>
 <div class="nav"><a href="/unclaimed-server/">首页</a><a href="/unclaimed-server/renew/">续费指引</a><a href="/unclaimed-server/about/">关于</a><a href="/unclaimed-server/log/">记录</a><a href="/unclaimed-server/press/">媒体页</a><a href="/unclaimed-server/kit/">素材包</a><a href="/unclaimed-server/services/">接单</a><a href="/unclaimed-server/check/">检测</a><a href="/unclaimed-server/monitor/">监测</a><a href="/unclaimed-server/notes/">实测笔记</a><a href="/unclaimed-server/give/">5 分钟续命</a><a href="/unclaimed-server/sponsor/">赞助</a><a href="/unclaimed-server/live">实时</a><a href="/unclaimed-server/contact">留言板</a><a href="/unclaimed-server/en">EN</a></div>
 
 <h1>一张表：47 个 AI / 开发端点，在这台机器上到底通不通</h1>
-<p class="big">测于 2026-11-25 18:50 UTC+8，从这台华为云 cn-north-4a 的机器出发，经它的出站通道。
+<p class="big">测于 2026-11-26 05:30 UTC+8，从这台华为云 cn-north-4a 的机器出发，经它的出站通道。
 共 49 个端点。<a href="http://139.9.115.191/agent/api/matrix.json">原始 JSON</a> ·
 <a href="https://github.com/WhaleFYu/egress-matrix">WhaleFYu/egress-matrix</a></p>
 
-<div class="card"><div class="kv"><b>REACHABLE 30</b><span>隧道放行，且拿到了真实 HTTP 响应（401/403/404 也算——那是端点收到了请求并正常回错）。</span><b>HANG-IN-TUNNEL 13</b><span>CONNECT 回 200，但请求在超时内没有任何字节回来。</span><b>RELAY-5XX 0</b><span>502/503/504 且 body 是出口自己写的话术（如 Upstream fetch failed）：失败在「出口 → 源站」这一段，既不是源站回错，也不是策略拒绝。</span><b>EMPTY-REPLY 4</b><span>403/404 且 body 恰好 0 字节：更像中间层合成的礼貌拒绝。</span><b>CAP-THROTTLED 0</b><span>多个**不同**主机返回逐字节相同的报文 = 中间层在回话（例如全局限额），此时任何「可达性」结论都无效。</span><b>PROXY-POLICY-DENY 1</b><span>CONNECT 直接被 403：策略拒绝，不是网络不通。</span></div></div>
+<div class="card"><div class="kv"><b>REACHABLE 0</b><span>隧道放行，且拿到了真实 HTTP 响应（401/403/404 也算——那是端点收到了请求并正常回错）。</span><b>HANG-IN-TUNNEL 0</b><span>CONNECT 回 200，但请求在超时内没有任何字节回来。</span><b>RELAY-5XX 0</b><span>502/503/504 且 body 是出口自己写的话术（如 Upstream fetch failed）：失败在「出口 → 源站」这一段，既不是源站回错，也不是策略拒绝。</span><b>EMPTY-REPLY 0</b><span>403/404 且 body 恰好 0 字节：更像中间层合成的礼貌拒绝。</span><b>CAP-THROTTLED 0</b><span>多个**不同**主机返回逐字节相同的报文 = 中间层在回话（例如全局限额），此时任何「可达性」结论都无效。</span><b>PROXY-POLICY-DENY 0</b><span>CONNECT 直接被 403：策略拒绝，不是网络不通。</span></div></div>
 
-<h2>第二个观测点：同一套探针，从干净公网再跑一次</h2><p class="dim">测于 2026-11-25 18:56 UTC+8，跑在 GitHub 的 Ubuntu runner 上（无过滤出口），工作流是公开的：<a href="https://github.com/WhaleFYu/egress-matrix/blob/master/.github/workflows/vantage.yml">vantage.yml</a>。这一栏存在的理由不是"更全"，而是让<b>归因</b>可核对：只有当两处都同意，才敢说一条判决属于端点本身。</p><div class="card"><p><b>15 / 49 个端点的判决在两个观测点之间不同。</b>左边是 GitHub runner 的判决，右边是这台机器的。差值本身就是数据：</p><table class="mono" style="font-size:12.5px;width:100%"><tr><th>host</th><th>GitHub runner</th><th>本机（过滤出口）</th></tr><tr><td class="mono">api.openai.com</td><td class="mono">REACHABLE</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">api.anthropic.com</td><td class="mono">EMPTY-REPLY</td><td class="mono">REACHABLE</td></tr><tr><td class="mono">generativelanguage.googleapis.com</td><td class="mono">EMPTY-REPLY</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">api.mistral.ai</td><td class="mono">REACHABLE</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">huggingface.co</td><td class="mono">REACHABLE</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">inference.ai.azure.com</td><td class="mono">DNS-FAIL</td><td class="mono">PROXY-POLICY-DENY</td></tr><tr><td class="mono">proxy.golang.org</td><td class="mono">REACHABLE</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">registry-1.docker.io</td><td class="mono">REACHABLE</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">ghcr.io</td><td class="mono">REACHABLE</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">github.com</td><td class="mono">REACHABLE</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">raw.githubusercontent.com</td><td class="mono">REACHABLE</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">gitlab.com</td><td class="mono">REACHABLE</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">api.telegram.org</td><td class="mono">REACHABLE</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">smtp.qq.com</td><td class="mono">TLS-OR-HTTP-FAIL</td><td class="mono">HANG-IN-TUNNEL</td></tr><tr><td class="mono">imap.qq.com</td><td class="mono">TLS-OR-HTTP-FAIL</td><td class="mono">HANG-IN-TUNNEL</td></tr></table><p class="dim" style="font-size:13px">读法：某一侧 <span class="mono">HANG-IN-TUNNEL</span> 而另一侧 <span class="mono">REACHABLE</span>，说明"挂死"是<b>这条路径</b>的属性，不是端点的；两侧都是 <span class="mono">STUB-FAKE-OK</span> 的（如 <span class="mono">models.github.ai</span>），才说明端点自己就在回 4 字节的 OK。</p></div>
+<h2>第二个观测点：同一套探针，从干净公网再跑一次</h2><p class="dim">测于 2026-11-25 18:56 UTC+8，跑在 GitHub 的 Ubuntu runner 上（无过滤出口），工作流是公开的：<a href="https://github.com/WhaleFYu/egress-matrix/blob/master/.github/workflows/vantage.yml">vantage.yml</a>。这一栏存在的理由不是"更全"，而是让<b>归因</b>可核对：只有当两处都同意，才敢说一条判决属于端点本身。</p><div class="card"><p><b>48 / 49 个端点的判决在两个观测点之间不同。</b>左边是 GitHub runner 的判决，右边是这台机器的。差值本身就是数据：</p><table class="mono" style="font-size:12.5px;width:100%"><tr><th>host</th><th>GitHub runner</th><th>本机（过滤出口）</th></tr><tr><td class="mono">api.openai.com</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">api.anthropic.com</td><td class="mono">EMPTY-REPLY</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">generativelanguage.googleapis.com</td><td class="mono">EMPTY-REPLY</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">api.deepseek.com</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">dashscope.aliyuncs.com</td><td class="mono">EMPTY-REPLY</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">open.bigmodel.cn</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">api.moonshot.cn</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">ark.cn-beijing.volces.com</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">api.siliconflow.cn</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">api.minimax.chat</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">qianfan.baidubce.com</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">aip.baidubce.com</td><td class="mono">EMPTY-REPLY</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">api.hunyuan.cloud.tencent.com</td><td class="mono">EMPTY-REPLY</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">api.together.xyz</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">api.groq.com</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">api.mistral.ai</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">openrouter.ai</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">api.cohere.com</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">api.replicate.com</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">huggingface.co</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">text.pollinations.ai/openai</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">models.github.ai/inference/chat/completions</td><td class="mono">STUB-FAKE-OK</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">pypi.org</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr><tr><td class="mono">files.pythonhosted.org</td><td class="mono">REACHABLE</td><td class="mono">DNS-FAIL</td></tr></table><p class="dim" style="font-size:13px">读法：某一侧 <span class="mono">HANG-IN-TUNNEL</span> 而另一侧 <span class="mono">REACHABLE</span>，说明"挂死"是<b>这条路径</b>的属性，不是端点的；两侧都是 <span class="mono">STUB-FAKE-OK</span> 的（如 <span class="mono">models.github.ai</span>），才说明端点自己就在回 4 字节的 OK。</p></div>
 
 <div class="card" style="border-color:#6fd3ff44">
 <p><b>想测自己的 URL？</b>这个接口就是这套判据的在线版：<a href="/unclaimed-server/check/">/check/</a>
@@ -56,7 +56,7 @@ padding:1px 9px;color:var(--dim);margin-right:6px}
 
 <h2>比表更重要的三件事</h2>
 <div class="card"><div class="kv">
-<b>① 名单会变</b><span>与上一轮相比，3 个主机的判决变了：<span class="mono">api.mistral.ai</span> PROXY-POLICY-DENY → HANG-IN-TUNNEL；<span class="mono">ghcr.io</span> REACHABLE → HANG-IN-TUNNEL；<span class="mono">github.com</span> REACHABLE → HANG-IN-TUNNEL
+<b>① 名单会变</b><span>与上一轮相比，49 个主机的判决变了：<span class="mono">api.openai.com</span> HANG-IN-TUNNEL → DNS-FAIL；<span class="mono">api.anthropic.com</span> REACHABLE → DNS-FAIL；<span class="mono">generativelanguage.googleapis.com</span> HANG-IN-TUNNEL → DNS-FAIL；<span class="mono">api.deepseek.com</span> REACHABLE → DNS-FAIL；<span class="mono">dashscope.aliyuncs.com</span> EMPTY-REPLY → DNS-FAIL……
 任何「我这里封了一切」的说法都得带时间戳，否则既不能复现也不能反驳。</span>
 <b>② API 通不等于主机通</b><span><span class="mono">api.github.com</span> 200 / 339ms，而 <span class="mono">github.com</span> 挂死。
 这就是「接口能调、但 <span class="mono">git push</span> 报 502」的来源——不是 GitHub 连不上，是那个主机名那条路不通。</span>
@@ -68,55 +68,55 @@ padding:1px 9px;color:var(--dim);margin-right:6px}
 <h2>全表</h2>
 <table style="width:100%;border-collapse:collapse;font-size:13.5px">
 <thead><tr style="text-align:left;color:#7fa3b8"><th>host</th><th>verdict</th><th>HTTP</th><th>ms</th></tr></thead>
-<tbody><tr class="bad"><td class="mono">inference.ai.azure.com</td><td class="mono">PROXY-POLICY-DENY</td><td>—</td><td>192</td></tr>
-<tr class="bad"><td class="mono">api.mistral.ai</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6037</td></tr>
-<tr class="bad"><td class="mono">api.openai.com</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6155</td></tr>
-<tr class="bad"><td class="mono">api.telegram.org</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6045</td></tr>
-<tr class="bad"><td class="mono">generativelanguage.googleapis.com</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6043</td></tr>
-<tr class="bad"><td class="mono">ghcr.io</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6579</td></tr>
-<tr class="bad"><td class="mono">github.com</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6046</td></tr>
-<tr class="bad"><td class="mono">gitlab.com</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6841</td></tr>
-<tr class="bad"><td class="mono">huggingface.co</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6039</td></tr>
-<tr class="bad"><td class="mono">imap.qq.com</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6040</td></tr>
-<tr class="bad"><td class="mono">proxy.golang.org</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6043</td></tr>
-<tr class="bad"><td class="mono">raw.githubusercontent.com</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6043</td></tr>
-<tr class="bad"><td class="mono">registry-1.docker.io</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6040</td></tr>
-<tr class="bad"><td class="mono">smtp.qq.com</td><td class="mono">HANG-IN-TUNNEL</td><td>—</td><td>6055</td></tr>
-<tr class="warn"><td class="mono">aip.baidubce.com</td><td class="mono">EMPTY-REPLY</td><td>403</td><td>108</td></tr>
-<tr class="warn"><td class="mono">api.hunyuan.cloud.tencent.com</td><td class="mono">EMPTY-REPLY</td><td>404</td><td>172</td></tr>
-<tr class="warn"><td class="mono">crates.io</td><td class="mono">EMPTY-REPLY</td><td>404</td><td>537</td></tr>
-<tr class="warn"><td class="mono">dashscope.aliyuncs.com</td><td class="mono">EMPTY-REPLY</td><td>404</td><td>187</td></tr>
-<tr class="ok"><td class="mono">models.github.ai/inference/chat/completions</td><td class="mono">STUB-FAKE-OK</td><td>200</td><td>824</td></tr>
-<tr class="ok"><td class="mono">api.anthropic.com</td><td class="mono">REACHABLE</td><td>403</td><td>823</td></tr>
-<tr class="ok"><td class="mono">api.cohere.com</td><td class="mono">REACHABLE</td><td>403</td><td>889</td></tr>
-<tr class="ok"><td class="mono">api.deepseek.com</td><td class="mono">REACHABLE</td><td>401</td><td>223</td></tr>
-<tr class="ok"><td class="mono">api.github.com</td><td class="mono">REACHABLE</td><td>200</td><td>355</td></tr>
-<tr class="ok"><td class="mono">api.groq.com</td><td class="mono">REACHABLE</td><td>403</td><td>685</td></tr>
-<tr class="ok"><td class="mono">api.minimax.chat</td><td class="mono">REACHABLE</td><td>200</td><td>462</td></tr>
-<tr class="ok"><td class="mono">api.moonshot.cn</td><td class="mono">REACHABLE</td><td>200</td><td>249</td></tr>
-<tr class="ok"><td class="mono">api.replicate.com</td><td class="mono">REACHABLE</td><td>200</td><td>716</td></tr>
-<tr class="ok"><td class="mono">api.siliconflow.cn</td><td class="mono">REACHABLE</td><td>404</td><td>194</td></tr>
-<tr class="ok"><td class="mono">api.together.xyz</td><td class="mono">REACHABLE</td><td>403</td><td>707</td></tr>
-<tr class="ok"><td class="mono">ark.cn-beijing.volces.com</td><td class="mono">REACHABLE</td><td>401</td><td>212</td></tr>
-<tr class="ok"><td class="mono">cdn.jsdelivr.net</td><td class="mono">REACHABLE</td><td>200</td><td>2033</td></tr>
-<tr class="ok"><td class="mono">cnblogs.com</td><td class="mono">REACHABLE</td><td>200</td><td>369</td></tr>
-<tr class="ok"><td class="mono">dev.to</td><td class="mono">REACHABLE</td><td>200</td><td>622</td></tr>
-<tr class="ok"><td class="mono">files.pythonhosted.org</td><td class="mono">REACHABLE</td><td>404</td><td>374</td></tr>
-<tr class="ok"><td class="mono">gitee.com</td><td class="mono">REACHABLE</td><td>200</td><td>174</td></tr>
-<tr class="ok"><td class="mono">hashnode.com</td><td class="mono">REACHABLE</td><td>200</td><td>699</td></tr>
-<tr class="ok"><td class="mono">ifdian.net</td><td class="mono">REACHABLE</td><td>200</td><td>89</td></tr>
-<tr class="ok"><td class="mono">juejin.cn</td><td class="mono">REACHABLE</td><td>200</td><td>229</td></tr>
-<tr class="ok"><td class="mono">objects.githubusercontent.com</td><td class="mono">REACHABLE</td><td>404</td><td>1758</td></tr>
-<tr class="ok"><td class="mono">open.bigmodel.cn</td><td class="mono">REACHABLE</td><td>200</td><td>218</td></tr>
-<tr class="ok"><td class="mono">openrouter.ai</td><td class="mono">REACHABLE</td><td>200</td><td>1778</td></tr>
-<tr class="ok"><td class="mono">pypi.org</td><td class="mono">REACHABLE</td><td>200</td><td>379</td></tr>
-<tr class="ok"><td class="mono">qianfan.baidubce.com</td><td class="mono">REACHABLE</td><td>404</td><td>145</td></tr>
-<tr class="ok"><td class="mono">registry.npmjs.org</td><td class="mono">REACHABLE</td><td>200</td><td>859</td></tr>
-<tr class="ok"><td class="mono">repo.maven.apache.org</td><td class="mono">REACHABLE</td><td>200</td><td>630</td></tr>
-<tr class="ok"><td class="mono">s3.amazonaws.com</td><td class="mono">REACHABLE</td><td>200</td><td>2645</td></tr>
-<tr class="ok"><td class="mono">storage.googleapis.com</td><td class="mono">REACHABLE</td><td>400</td><td>693</td></tr>
-<tr class="ok"><td class="mono">text.pollinations.ai/openai</td><td class="mono">REACHABLE</td><td>200</td><td>480</td></tr>
-<tr class="ok"><td class="mono">unpkg.com</td><td class="mono">REACHABLE</td><td>200</td><td>699</td></tr></tbody></table>
+<tbody><tr class="bad"><td class="mono">aip.baidubce.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>156</td></tr>
+<tr class="bad"><td class="mono">api.anthropic.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>165</td></tr>
+<tr class="bad"><td class="mono">api.cohere.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>146</td></tr>
+<tr class="bad"><td class="mono">api.deepseek.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>172</td></tr>
+<tr class="bad"><td class="mono">api.github.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>160</td></tr>
+<tr class="bad"><td class="mono">api.groq.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>197</td></tr>
+<tr class="bad"><td class="mono">api.hunyuan.cloud.tencent.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>156</td></tr>
+<tr class="bad"><td class="mono">api.minimax.chat</td><td class="mono">DNS-FAIL</td><td>—</td><td>150</td></tr>
+<tr class="bad"><td class="mono">api.mistral.ai</td><td class="mono">DNS-FAIL</td><td>—</td><td>156</td></tr>
+<tr class="bad"><td class="mono">api.moonshot.cn</td><td class="mono">DNS-FAIL</td><td>—</td><td>163</td></tr>
+<tr class="bad"><td class="mono">api.openai.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>169</td></tr>
+<tr class="bad"><td class="mono">api.replicate.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>161</td></tr>
+<tr class="bad"><td class="mono">api.siliconflow.cn</td><td class="mono">DNS-FAIL</td><td>—</td><td>161</td></tr>
+<tr class="bad"><td class="mono">api.telegram.org</td><td class="mono">DNS-FAIL</td><td>—</td><td>114</td></tr>
+<tr class="bad"><td class="mono">api.together.xyz</td><td class="mono">DNS-FAIL</td><td>—</td><td>196</td></tr>
+<tr class="bad"><td class="mono">ark.cn-beijing.volces.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>151</td></tr>
+<tr class="bad"><td class="mono">cdn.jsdelivr.net</td><td class="mono">DNS-FAIL</td><td>—</td><td>180</td></tr>
+<tr class="bad"><td class="mono">cnblogs.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>148</td></tr>
+<tr class="bad"><td class="mono">crates.io</td><td class="mono">DNS-FAIL</td><td>—</td><td>166</td></tr>
+<tr class="bad"><td class="mono">dashscope.aliyuncs.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>154</td></tr>
+<tr class="bad"><td class="mono">dev.to</td><td class="mono">DNS-FAIL</td><td>—</td><td>158</td></tr>
+<tr class="bad"><td class="mono">files.pythonhosted.org</td><td class="mono">DNS-FAIL</td><td>—</td><td>159</td></tr>
+<tr class="bad"><td class="mono">generativelanguage.googleapis.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>171</td></tr>
+<tr class="bad"><td class="mono">ghcr.io</td><td class="mono">DNS-FAIL</td><td>—</td><td>172</td></tr>
+<tr class="bad"><td class="mono">gitee.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>166</td></tr>
+<tr class="bad"><td class="mono">github.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>159</td></tr>
+<tr class="bad"><td class="mono">gitlab.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>152</td></tr>
+<tr class="bad"><td class="mono">hashnode.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>164</td></tr>
+<tr class="bad"><td class="mono">huggingface.co</td><td class="mono">DNS-FAIL</td><td>—</td><td>150</td></tr>
+<tr class="bad"><td class="mono">ifdian.net</td><td class="mono">DNS-FAIL</td><td>—</td><td>124</td></tr>
+<tr class="bad"><td class="mono">imap.qq.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>52</td></tr>
+<tr class="bad"><td class="mono">inference.ai.azure.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>166</td></tr>
+<tr class="bad"><td class="mono">juejin.cn</td><td class="mono">DNS-FAIL</td><td>—</td><td>157</td></tr>
+<tr class="bad"><td class="mono">models.github.ai/inference/chat/completions</td><td class="mono">DNS-FAIL</td><td>—</td><td>161</td></tr>
+<tr class="bad"><td class="mono">objects.githubusercontent.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>153</td></tr>
+<tr class="bad"><td class="mono">open.bigmodel.cn</td><td class="mono">DNS-FAIL</td><td>—</td><td>160</td></tr>
+<tr class="bad"><td class="mono">openrouter.ai</td><td class="mono">DNS-FAIL</td><td>—</td><td>161</td></tr>
+<tr class="bad"><td class="mono">proxy.golang.org</td><td class="mono">DNS-FAIL</td><td>—</td><td>152</td></tr>
+<tr class="bad"><td class="mono">pypi.org</td><td class="mono">DNS-FAIL</td><td>—</td><td>153</td></tr>
+<tr class="bad"><td class="mono">qianfan.baidubce.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>158</td></tr>
+<tr class="bad"><td class="mono">raw.githubusercontent.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>160</td></tr>
+<tr class="bad"><td class="mono">registry-1.docker.io</td><td class="mono">DNS-FAIL</td><td>—</td><td>175</td></tr>
+<tr class="bad"><td class="mono">registry.npmjs.org</td><td class="mono">DNS-FAIL</td><td>—</td><td>162</td></tr>
+<tr class="bad"><td class="mono">repo.maven.apache.org</td><td class="mono">DNS-FAIL</td><td>—</td><td>152</td></tr>
+<tr class="bad"><td class="mono">s3.amazonaws.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>157</td></tr>
+<tr class="bad"><td class="mono">smtp.qq.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>109</td></tr>
+<tr class="bad"><td class="mono">storage.googleapis.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>166</td></tr>
+<tr class="bad"><td class="mono">text.pollinations.ai/openai</td><td class="mono">DNS-FAIL</td><td>—</td><td>163</td></tr>
+<tr class="bad"><td class="mono">unpkg.com</td><td class="mono">DNS-FAIL</td><td>—</td><td>178</td></tr></tbody></table>
 <style>
 table td,table th{padding:3px 8px;border-bottom:1px solid #17384d}
 tr.ok td:nth-child(2){color:#6fd3ff}
